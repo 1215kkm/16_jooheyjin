@@ -142,7 +142,6 @@ gsap.timeline({
       end: '+=2000',
       scrub: 0.5,
       anticipatePin: 1,
-      markers:true,
     }
   })
   .from('.testimonial-slider__slide:nth-child(odd)',
@@ -153,3 +152,60 @@ gsap.timeline({
     {xPercent: 20, 
         stagger:0.2
     },'slider');
+
+
+// ------------------------------------------------
+// 05. Hero video modal open/close
+// ------------------------------------------------
+(function(){
+  const videoLink = document.querySelector('.s-hero__video-link');
+  const modal = document.getElementById('heroVideoModal');
+  const dialog = modal ? modal.querySelector('.hero-video-dialog') : null;
+  const closeTargets = modal ? modal.querySelectorAll('[data-close-video]') : [];
+  const video = modal ? modal.querySelector('video.hero-video') : null;
+  const source = video ? video.querySelector('source') : null;
+
+  if (!videoLink || !modal || !dialog || !video || !source) return;
+
+  function openModal(src){
+    source.src = src;
+    video.load();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    // autoplay after open
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(function(){ /* ignore autoplay block */ });
+    }
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    video.pause();
+    video.currentTime = 0;
+    source.src = '';
+    video.load();
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  videoLink.addEventListener('click', function(e){
+    e.preventDefault();
+    const href = videoLink.getAttribute('href');
+    if (href) openModal(href);
+  });
+
+  closeTargets.forEach(function(el){
+    el.addEventListener('click', function(){
+      closeModal();
+    });
+  });
+
+  // close on Esc
+  document.addEventListener('keydown', function(e){
+    if (modal.classList.contains('is-open') && (e.key === 'Escape' || e.key === 'Esc')) {
+      closeModal();
+    }
+  });
+})();

@@ -3377,7 +3377,7 @@ input::-moz-focus-inner {
 @media screen and (max-width: 900px) {
     .s-header {
         top: var(--vspace-0_5);
-        height: 8rem;
+        height: 7rem;
     }
     .s-header.sticky .s-header__content .btn, 
     .s-header .s-header__content .btn {
@@ -3681,6 +3681,64 @@ input::-moz-focus-inner {
 
 .s-hero__video-text {
     display: none;
+}
+
+/* hero video modal */
+.hero-video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: opacity .3s ease, visibility .3s ease;
+    transition: opacity .3s ease, visibility .3s ease;
+}
+.hero-video-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+.hero-video-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.7);
+}
+.hero-video-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: min(90vw, 960px);
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+}
+.hero-video-dialog video.hero-video {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #000;
+}
+.hero-video-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    font-size: 28px;
+    line-height: 40px;
+    text-align: center;
+}
+.hero-video-close:hover,
+.hero-video-close:focus {
+    background: rgba(255,255,255,.24);
+    outline: none;
 }
 
 
